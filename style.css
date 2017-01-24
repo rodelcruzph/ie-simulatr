@@ -1,0 +1,104 @@
+/*
+Theme Name: Sample
+Theme URI: http://aios3-staging.agentimage.com/a/agentryder.com/htdocs
+Description: AIOS mobile semi-custom theme.
+Author: Jaryd Carino
+Author URI: http://www.agentimage.com
+Version: 1.2.7
+Tags: one-column, two-columns, right-sidebar, custom-menu, full-width-template, sticky-post
+License: Proprietary
+License URI: http://www.agentimage.com
+Template: aios-starter-theme
+*/
+
+/*
+
+TABLE OF CONTENTS
+
+1. Custom CSS
+2.	IP styles
+3. MEDIA QUERIES ARE AUTOMATICALLY REMOVED FROM THIS FILE, they must be placed in style-media-queries.css
+  
+*/
+
+/*******************************************************
+ *
+ * 1. Custom CSS
+ *
+ *******************************************************/
+
+/* Global */
+
+body{
+	font-family: 'Open Sans', Arial, Helvetica, Georgia, Sans-serif;
+	font-size: 12px;
+	background: #FFF;
+	color: #000000;
+	margin: 0;
+}
+
+#number{
+	font-size: 40px;
+	text-align: center;
+	display: block;
+	padding: 20px 0;
+}
+#classroom{
+	position: relative;
+	/*width: 500px;
+	height: 350px;*/
+	text-align: center;
+	margin: 0 auto;
+	border: 2px solid #000;
+}
+
+	ul.classroom-wrap {
+	    margin: 0 auto;
+	    padding: 0;
+	    list-style: none;
+	    font-size: 0;
+	    display: inline-block;
+	    vertical-align: middle;
+	}
+		ul.classroom-wrap li {
+		    display: inline-block;
+		    vertical-align: top;
+		    -webkit-box-shadow: inset 0px 0px 1px 1px rgba(0, 0, 0, 1);
+			-moz-box-shadow:    inset 0px 0px 1px 1px rgba(0, 0, 0, 1);
+			box-shadow:         inset 0px 0px 1px 1px rgba(0, 0, 0, 1);
+		    font-size: 10px;
+		    position: relative;
+		}
+			.classroom-wrap li:nth-last-child(2), .classroom-wrap li:last-child{
+				-webkit-box-shadow: inset 0px 0px 1px 1px rgba(0, 0, 0, 1);
+				-moz-box-shadow:    inset 0px 0px 1px 1px rgba(0, 0, 0, 1);
+				box-shadow:         inset 0px 0px 1px 1px rgba(0, 0, 0, 1);
+				position: relative;
+			}
+			.classroom-wrap li:nth-last-child(2):after, .classroom-wrap li:last-child:after {
+			    content: '';
+			    background: #fff;
+			    width: 95%;
+			    height: 4px;
+			    position: absolute;
+			    bottom: -2px;
+			    left: 1px;
+			}
+			.classroom-wrap li:before{
+				content: '';
+				width: 0;
+				height: 100%;
+				display: inline-block;
+				vertical-align: middle;
+			}
+
+			.people span{
+				width: 20px;
+				height: 20px;
+				text-align: center;
+				display: inline-block;
+				vertical-align: middle;
+				background: #000;
+				border-radius: 50%;
+				margin: 0 auto;
+			}
