@@ -14,9 +14,9 @@
 
 var app = {
 	vars: {
-		boxDim: 20,
-		rows: 10,
-		cols: 10,
+		boxDim: 50,
+		rows: 5,
+		cols: 5,
 		people: {}
 	},
 
@@ -60,8 +60,8 @@ var app = {
 	addPeople: function() {
 		jQuery(".classroom-wrap li:nth-last-child(2), .classroom-wrap li:last-child").addClass('door');
 
-		var minPeople = 15;
-		var maxPeople = app.vars.rows * app.vars.cols;
+		var minPeople = 1;
+		var maxPeople = 5;
 		var currPeople = Math.floor(Math.random()* (maxPeople - minPeople + 1) + minPeople);
 		jQuery('#number').text(currPeople + ' people');
 
