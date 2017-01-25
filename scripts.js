@@ -83,8 +83,8 @@
 var app = {
 	vars: {
 		boxDim: 50,
-		rows: 10,
-		cols: 10,
+		rows: 5,
+		cols: 6,
 		people: {}
 	},
 
@@ -128,8 +128,8 @@ var app = {
 	addPeople: function() {
 		jQuery(".classroom-wrap li:nth-last-child(2), .classroom-wrap li:last-child").addClass('door');
 
-		var minPeople = 1;
-		var maxPeople = 2;
+		var minPeople = 15;
+		var maxPeople = app.vars.rows * app.vars.cols;
 		var currPeople = Math.floor(Math.random()* (maxPeople - minPeople + 1) + minPeople);
 		jQuery('#number').text(currPeople + ' people');
 
@@ -150,8 +150,8 @@ var app = {
 		jQuery('.classroom-wrap li').each(function() {
 			if(jQuery(this).hasClass('people')) {
 				app.vars.people[i] = {
-					'x': jQuery(this).data('col'),
-					'y': jQuery(this).data('row')
+					'colCoords': jQuery(this).data('row'),
+					'rowCoords': jQuery(this).data('col')
 				}
 				i += 1;
 			}
