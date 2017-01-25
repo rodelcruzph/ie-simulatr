@@ -150,8 +150,8 @@ var app = {
 		jQuery('.classroom-wrap li').each(function() {
 			if(jQuery(this).hasClass('people')) {
 				app.vars.people[i] = {
-					'colCoords': jQuery(this).data('row'),
-					'rowCoords': jQuery(this).data('col')
+					'colCoords': jQuery(this).data('col'),
+					'rowCoords': jQuery(this).data('row')
 				}
 				i += 1;
 			}
