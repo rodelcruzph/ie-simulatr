@@ -67,20 +67,54 @@ body{
 		    font-size: 10px;
 		    position: relative;
 		}
-			.classroom-wrap li:nth-last-child(2), .classroom-wrap li:last-child{
+			/*.classroom-wrap li:nth-last-child(2),
+			.classroom-wrap li:last-child{
 				-webkit-box-shadow: inset 0px 0px 1px 1px rgba(0, 0, 0, 1);
 				-moz-box-shadow:    inset 0px 0px 1px 1px rgba(0, 0, 0, 1);
 				box-shadow:         inset 0px 0px 1px 1px rgba(0, 0, 0, 1);
 				position: relative;
+			}*/
+			.classroom-wrap li.door:after {
+				content: '';
+				background: #fff;
+				/*width: 95%;
+				height: 4px;*/
+				position: absolute;
+				/*bottom: -2px;
+				left: 1px;*/
+				z-index: 1;
 			}
-			.classroom-wrap li:nth-last-child(2):after, .classroom-wrap li:last-child:after {
-			    content: '';
-			    background: #fff;
-			    width: 95%;
-			    height: 4px;
-			    position: absolute;
-			    bottom: -2px;
-			    left: 1px;
+
+			.classroom-wrap li.door.top:after {
+				width: 95%;
+				height: 4px;
+				position: absolute;
+				top: -2px;
+				left: 1px;
+			}
+
+			.classroom-wrap li.door.right:after {
+				width: 4px;
+				height: 95%;
+				position: absolute;
+				top: 1px;
+				right: -2px;
+			}
+			.classroom-wrap li.door.bottom:after {
+				content: '';
+				background: #fff;
+				width: 95%;
+				height: 4px;
+				position: absolute;
+				bottom: -2px;
+				left: 1px;
+			}
+			.classroom-wrap li.door.left:after {
+				width: 4px;
+				height: 95%;
+				position: absolute;
+				top: 1px;
+				left: -2px;
 			}
 			.people span{
 				width: 10px;

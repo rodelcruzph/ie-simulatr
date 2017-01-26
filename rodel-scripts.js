@@ -1,4 +1,4 @@
-( function() {
+( function($) {
 	
 	jQuery(document).ready( function() {
 		
@@ -11,17 +11,34 @@
 var app = {
 	vars: {
 		boxDim: 50,
-		rows: 5,
+		rows: 6,
 		cols: 6,
-		people: {}
+		doors: {
+			1: {
+				x: 3, // x must less than or equal to number of cols
+				y: 1, // y must be less than or equal to number rows
+				face: 'left'
+			},
+			2: {
+				x: 4,
+				y: 1,
+				face: 'left'
+			}
+		},
+		minPeople: 2,
+		maxPeople: 5,
+		people: {},
+		timeInter: 0.36
 	},
 
 	init: function() {
-		app.drawRoom();
+		app.drawRoom(function() {
+			app.addDoors();
+		});
 		//app.getPeople();
 	},
 
-	drawRoom: function() {
+	drawRoom: function(cbf) {
 		jQuery('#classroom').css({
 			width: app.vars.boxDim * app.vars.cols,
 			height: app.vars.boxDim * app.vars.rows
@@ -33,8 +50,14 @@ var app = {
 			}
 		}
 
+		if(typeof cbf == 'function') {
+			app.addPeople(function() {
+				cbf.call(this);
+			});
+		}
+
 		//app.addPerson();
-		app.addPeople();
+		// app.addPeople();
 	},
 
 	addPerson: function() {
@@ -53,11 +76,36 @@ var app = {
 		app.getPeople();
 	},
 
-	addPeople: function() {
-		jQuery(".classroom-wrap li:nth-last-child(2), .classroom-wrap li:last-child").addClass('door');
+	addDoors: function(cbf) {
 
-		var minPeople = 15;
-		var maxPeople = app.vars.rows * app.vars.cols;
+		var numOfDoors = Object.keys(app.vars.doors).length;
+
+		// jQuery(this) = 
+
+		// add door class
+		// for(var j = 1; j <= app.vars.rows; j++) {
+		// 	for(var = i; i <= app.vars.cols; i++) {
+
+		// 	}
+		// }
+
+		for(var i = 1; i <= numOfDoors; i++) {
+			var x = app.vars.doors[i].x,
+				y = app.vars.doors[i].y,
+				face = app.vars.doors[i].face;
+
+			jQuery('.classroom-wrap li[data-row=' +x+ '][data-col=' +y+ ']').addClass('door '+ face);
+
+			// jQuery('.classroom-wrap li[data-row=' +y+ '][data-col=' +x+ ']').addClass('here');
+		}
+		
+	},
+
+	addPeople: function(cbf) {
+		// jQuery(".classroom-wrap li:nth-last-child(2), .classroom-wrap li:last-child").addClass('door');
+
+		var minPeople = app.vars.minPeople;
+		var maxPeople = app.vars.maxPeople;
 		var currPeople = Math.floor(Math.random()* (maxPeople - minPeople + 1) + minPeople);
 		jQuery('#number').text(currPeople + ' people');
 
@@ -66,13 +114,22 @@ var app = {
 			  return Math.round(Math.random())-0.5
 			}).slice(0,currPeople);
 
+		console.log(randomElements);
+
 		jQuery(randomElements).addClass('people');
 		jQuery('.people').append(people);
 
-		app.getPeople();
+		if(typeof cbf == 'function') {
+			app.getPeople(function() {
+				cbf.call(this);
+			});
+		}
+
+		// app.getPeople();
+
 	},
 
-	getPeople: function() {
+	getPeople: function(cbf) {
 		var i = 1;
 
 		jQuery('.classroom-wrap li').each(function() {
@@ -84,5 +141,10 @@ var app = {
 				i += 1;
 			}
 		});
-	}
+
+		if(typeof cbf == 'function') {
+			cbf.call(this);
+		}
+	},
+
 }
