@@ -35,7 +35,6 @@ var app = {
 		app.drawRoom(function() {
 			app.addDoors();
 		});
-		//app.getPeople();
 	},
 
 	drawRoom: function(cbf) {
@@ -55,9 +54,6 @@ var app = {
 				cbf.call(this);
 			});
 		}
-
-		//app.addPerson();
-		// app.addPeople();
 	},
 
 	addPerson: function() {
@@ -80,29 +76,17 @@ var app = {
 
 		var numOfDoors = Object.keys(app.vars.doors).length;
 
-		// jQuery(this) = 
-
-		// add door class
-		// for(var j = 1; j <= app.vars.rows; j++) {
-		// 	for(var = i; i <= app.vars.cols; i++) {
-
-		// 	}
-		// }
-
 		for(var i = 1; i <= numOfDoors; i++) {
 			var x = app.vars.doors[i].x,
 				y = app.vars.doors[i].y,
 				face = app.vars.doors[i].face;
 
 			jQuery('.classroom-wrap li[data-row=' +x+ '][data-col=' +y+ ']').addClass('door '+ face);
-
-			// jQuery('.classroom-wrap li[data-row=' +y+ '][data-col=' +x+ ']').addClass('here');
 		}
 		
 	},
 
 	addPeople: function(cbf) {
-		// jQuery(".classroom-wrap li:nth-last-child(2), .classroom-wrap li:last-child").addClass('door');
 
 		var minPeople = app.vars.minPeople;
 		var maxPeople = app.vars.maxPeople;
@@ -124,8 +108,6 @@ var app = {
 				cbf.call(this);
 			});
 		}
-
-		// app.getPeople();
 
 	},
 
