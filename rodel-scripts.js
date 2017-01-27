@@ -16,17 +16,17 @@ var app = {
 		doors: {
 			1: {
 				x: 3, // x must less than or equal to number of cols
-				y: 1, // y must be less than or equal to number rows
-				face: 'left'
+				y: 6, // y must be less than or equal to number rows
+				face: 'right'
 			},
 			2: {
 				x: 4,
-				y: 1,
-				face: 'left'
+				y: 6,
+				face: 'right'
 			}
 		},
-		minPeople: 2,
-		maxPeople: 5,
+		minPeople: 1,
+		maxPeople: 15,
 		people: {},
 		timeInter: 0.36
 	},
@@ -98,10 +98,9 @@ var app = {
 			  return Math.round(Math.random())-0.5
 			}).slice(0,currPeople);
 
-		console.log(randomElements);
-
-		jQuery(randomElements).addClass('people');
-		jQuery('.people').append(people);
+		for(var i = 0; i < randomElements.length; i++) {
+			jQuery(randomElements[i]).addClass('people').append("<span class='people-item'>" + (i+1) + "</span>");
+		}
 
 		if(typeof cbf == 'function') {
 			app.getPeople(function() {
