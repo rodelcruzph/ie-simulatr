@@ -26,7 +26,7 @@ var app = {
 			}
 		},
 		minPeople: 1,
-		maxPeople: 2,
+		maxPeople: 5,
 		people: {},
 		timeInter: 0.36,
 		dtd: {}
@@ -36,6 +36,8 @@ var app = {
 		app.drawRoom(function() {
 			app.addDoors(app.move.getExitDoor());
 		});
+
+		app.move.movePerson();
 	},
 
 	drawRoom: function(cbf) {
@@ -169,23 +171,29 @@ var app = {
 				total = null;
 			} // numOfPeople
 
-			// for(var dist in dtd) {
-			// 	sortable.push([dist, dtd[dist]])
-			// }
+		},
 
-			// sortable.sort(function(a,b) {
-			// 	return a[1] - b[1];
-			// });
+		movePerson: function() {
+			var x, y,
+				numOfPeople = Object.keys(app.vars.people).length;
 
-			
+			for(var i = 1; i <= numOfPeople; i++) {
+				var startY = app.vars.people[i].rowCoords,
+					endY = app.vars.dtd[i].x,
+					startX = app.vars.people[i].colCoords,
+					endX = app.vars.dtd[i].y;
 
+					// app.vars.getDirection(startY, startX, endY, endX);
+					console.log(startY, endY, startX, endX);
+			}
 
 		},
 
-		getDirection: function(y, x, cfb) {
-			var currCol = y, currRow = x;
-
-
+		getDirection: function(startY, startX, endY, endX, cfb) {
+			var startCol = x,
+				startRow = y,
+				endCol = 0,
+				endRow = 0;
 
 		},
 
