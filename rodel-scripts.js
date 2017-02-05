@@ -48,9 +48,16 @@ var app = {
 
 		for(var j = 1; j <= app.vars.rows; j++) {
 			for(var i = 1; i <= app.vars.cols; i++) {
-				jQuery('<li data-row="'+j+'" data-col="'+i+'" class="tileBox" style="width:'+ app.vars.boxDim +'px; height:'+ app.vars.boxDim +'px;"></li>').appendTo('.classroom-wrap');
+				jQuery('<li data-row="'+j+'" data-col="'+i+'" class="tileBox" style="width:'+ app.vars.boxDim +'px; height:'+ app.vars.boxDim +'px;"><span class="item"></span></li>').appendTo('.classroom-wrap');
 			}
 		}
+
+		// Add play/start button
+		playBtn = '<div class="play-btn-holder"> \
+					<a href="javascript:;" class="play-btn">Start</a> \
+					</div>';
+
+		jQuery('body').append(playBtn);
 
 		if(typeof cbf == 'function') {
 			app.addPeople(function() {
@@ -100,13 +107,15 @@ var app = {
 		var currPeople = Math.floor(Math.random()* (maxPeople - minPeople + 1) + minPeople);
 		jQuery('#number').text(currPeople + ' people');
 
-		var people = "<span class='people-item'></span>",
-			randomElements = jQuery("li").get().sort(function(){ 
+		var randomElements = jQuery("li").get().sort(function(){ 
 			  return Math.round(Math.random())-0.5
 			}).slice(0,currPeople);
 
+		// people = "<span class='people-item'></span>",
+
 		for(var i = 0; i < randomElements.length; i++) {
-			jQuery(randomElements[i]).addClass('people').append("<span class='people-item'>" + (i+1) + "</span>");
+			// jQuery(randomElements[i]).addClass('people').append("<span class='item'>" + (i+1) + "</span>");
+			jQuery(randomElements[i]).addClass('people').find('span.item').html(i+1);
 		}
 
 		if(typeof cbf == 'function') {
@@ -174,26 +183,38 @@ var app = {
 		},
 
 		movePerson: function() {
-			var x, y,
-				numOfPeople = Object.keys(app.vars.people).length;
+			var x, y, numOfPeople = Object.keys(app.vars.people).length;
 
-			for(var i = 1; i <= numOfPeople; i++) {
-				var startY = app.vars.people[i].rowCoords,
-					endY = app.vars.dtd[i].x,
-					startX = app.vars.people[i].colCoords,
-					endX = app.vars.dtd[i].y;
+			jQuery('.play-btn').on('click', function() {
 
-					// app.vars.getDirection(startY, startX, endY, endX);
-					console.log(startY, endY, startX, endX);
-			}
+				for(var i = 1; i <= numOfPeople; i++) {
+					var startY = app.vars.people[i].rowCoords,
+						endY = app.vars.dtd[i].x,
+						startX = app.vars.people[i].colCoords,
+						endX = app.vars.dtd[i].y;
+
+						app.move.getDirection(startY, endY, startX, endX, i);
+				}
+
+			});
 
 		},
 
-		getDirection: function(startY, startX, endY, endX, cfb) {
-			var startCol = x,
-				startRow = y,
-				endCol = 0,
-				endRow = 0;
+		getDirection: function(startY, endY, startX, endX, person, cfb) {
+
+			var totalHorz = Math.abs(startX - endX),
+				totalVert = Math.abs(startY - endY);
+
+			console.log(totalHorz + " : " + totalVert);
+
+			if(totalVert == 0 && totalHorz == 0) {
+				console.log(person + 'is by the ext door');
+			} else if((totalVert == 0 && totalHorz > 0) || (totalVert > totalHorz)) {
+				console.log(person + ' will move left or right');
+			} else if((totalHorz == 0 && totalVert > 0) || (totalHorz || totalVert)) {
+				console.log(person + ' will move down or up');
+			}
+
 
 		},
 
