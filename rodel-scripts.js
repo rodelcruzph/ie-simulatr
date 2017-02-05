@@ -137,24 +137,37 @@ var app = {
 		getExitDoor: function() {
 			var numOfDoors = Object.keys(app.vars.doors).length,
 				numOfPeople = Object.keys(app.vars.people).length,
-				xRes = null,
-				yRes = null,
-				dtd = [[]];
+				xRes = 0,
+				yRes = 0,
+				total = null,
+				currTotal = null,
+				currDoor = 1;
 
 			for(var j = 1; j <= numOfPeople; j++) {
 				for(var i = 1; i <= numOfDoors; i++) {
 
-					if(xRes == null && yRes == null) {
-						xRes = Math.abs(app.vars.doors[i].x - app.vars.people[j].rowCoords);
-						yRes = Math.abs(app.vars.doors[i].y - app.vars.people[j].colCoords);
-						console.log('vals were null');
-					} else {
+					xRes = Math.abs(app.vars.doors[i].x - app.vars.people[j].rowCoords);
+					yRes = Math.abs(app.vars.doors[i].y - app.vars.people[j].colCoords);
+
+					currTotal = xRes + yRes;
+
+					if(total == null || currTotal < total) {
+
+						// Compare distance to each door then assign exit door
+						app.vars.dtd[j] = {
+							'x': app.vars.doors[currDoor].x,
+							'y': app.vars.doors[currDoor].y
+						}
+
+						total = currTotal;
 
 					}
-				}
-			}
 
-			console.log(xRes + " : " + yRes);
+					currDoor += 1;
+				} // numOfDoors
+				currDoor = 1;
+				total = null;
+			} // numOfPeople
 
 			// for(var dist in dtd) {
 			// 	sortable.push([dist, dtd[dist]])
