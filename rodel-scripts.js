@@ -26,14 +26,15 @@ var app = {
 			}
 		},
 		minPeople: 1,
-		maxPeople: 15,
+		maxPeople: 2,
 		people: {},
-		timeInter: 0.36
+		timeInter: 0.36,
+		dtd: {}
 	},
 
 	init: function() {
 		app.drawRoom(function() {
-			app.addDoors();
+			app.addDoors(app.move.getExitDoor());
 		});
 	},
 
@@ -83,6 +84,10 @@ var app = {
 
 			jQuery('.classroom-wrap li[data-row=' +x+ '][data-col=' +y+ ']').addClass('door '+ face);
 		}
+
+		if(typeof cbf == 'function') {
+			cbf.call(this);
+		}
 		
 	},
 
@@ -127,5 +132,53 @@ var app = {
 			cbf.call(this);
 		}
 	},
+
+	move: {
+		getExitDoor: function() {
+			var numOfDoors = Object.keys(app.vars.doors).length,
+				numOfPeople = Object.keys(app.vars.people).length,
+				xRes = null,
+				yRes = null,
+				dtd = [[]];
+
+			for(var j = 1; j <= numOfPeople; j++) {
+				for(var i = 1; i <= numOfDoors; i++) {
+
+					if(xRes == null && yRes == null) {
+						xRes = Math.abs(app.vars.doors[i].x - app.vars.people[j].rowCoords);
+						yRes = Math.abs(app.vars.doors[i].y - app.vars.people[j].colCoords);
+						console.log('vals were null');
+					} else {
+
+					}
+				}
+			}
+
+			console.log(xRes + " : " + yRes);
+
+			// for(var dist in dtd) {
+			// 	sortable.push([dist, dtd[dist]])
+			// }
+
+			// sortable.sort(function(a,b) {
+			// 	return a[1] - b[1];
+			// });
+
+			
+
+
+		},
+
+		getDirection: function(y, x, cfb) {
+			var currCol = y, currRow = x;
+
+
+
+		},
+
+		isFree: function() {
+
+		}
+	}
 
 }
