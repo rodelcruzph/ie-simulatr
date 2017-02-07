@@ -38,6 +38,8 @@ var app = {
 		});
 
 		app.move.movePerson();
+
+		/* Init sa magdamag */
 	},
 
 	drawRoom: function(cbf) {
