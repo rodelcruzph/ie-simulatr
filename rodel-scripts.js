@@ -57,7 +57,7 @@ var app = {
 					<a href="javascript:;" class="play-btn">Start</a> \
 					</div>';
 
-		jQuery('body').append(playBtn);
+		jQuery('#main-content').append(playBtn);
 
 		if(typeof cbf == 'function') {
 			app.addPeople(function() {
