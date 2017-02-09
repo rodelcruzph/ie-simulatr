@@ -26,7 +26,7 @@ var app = {
 			}
 		},
 		minPeople: 1,
-		maxPeople: 5,
+		maxPeople: 2,
 		people: {},
 		timeInter: 0.36,
 		dtd: {}
@@ -168,8 +168,8 @@ var app = {
 
 						// Compare distance to each door then assign exit door
 						app.vars.dtd[j] = {
-							'x': app.vars.doors[currDoor].x,
-							'y': app.vars.doors[currDoor].y
+							'col': app.vars.doors[currDoor].x,
+							'row': app.vars.doors[currDoor].y
 						}
 
 						total = currTotal;
@@ -190,32 +190,93 @@ var app = {
 			jQuery('.play-btn').on('click', function() {
 
 				for(var i = 1; i <= numOfPeople; i++) {
+
 					var startY = app.vars.people[i].rowCoords,
-						endY = app.vars.dtd[i].x,
+						endY = app.vars.dtd[i].col,
 						startX = app.vars.people[i].colCoords,
-						endX = app.vars.dtd[i].y;
+						endX = app.vars.dtd[i].row;
 
 						app.move.getDirection(startY, endY, startX, endX, i);
+
 				}
 
 			});
 
 		},
 
-		getDirection: function(startY, endY, startX, endX, person, cfb) {
+		getDirection: function(startRow, endRow, startCol, endCol, person, cfb) {
 
-			var totalHorz = Math.abs(startX - endX),
-				totalVert = Math.abs(startY - endY);
+			var totalHorz = Math.abs(startCol - endCol),
+				totalVert = Math.abs(startRow - endRow);
 
-			console.log(totalHorz + " : " + totalVert);
+			// console.log("movement: " + totalVert + " : " + totalHorz);
+
+			// console.log("X direction: " + startCol + " : " + endCol);
 
 			if(totalVert == 0 && totalHorz == 0) {
-				console.log(person + 'is by the ext door');
-			} else if((totalVert == 0 && totalHorz > 0) || (totalVert > totalHorz)) {
-				console.log(person + ' will move left or right');
-			} else if((totalHorz == 0 && totalVert > 0) || (totalHorz || totalVert)) {
-				console.log(person + ' will move down or up');
+
+				console.log(person + ' is by the ext door');
+
+			} else if (totalVert < totalHorz) {
+
+				if(totalVert == 0) {
+
+					if(startCol < endCol) {
+						console.log(person + ' will move right a');
+					} else {
+						console.log(person + ' will move left b');
+					}
+						
+				} else {
+
+					if(startRow < endRow) {
+						console.log(person + ' will move down c');
+					} else {
+						console.log(person + ' will move up d');
+					}
+				}
+
 			}
+
+			else if (totalHorz < totalVert) {
+
+				if(totalHorz == 0) {
+
+					if(startCol < endCol) {
+						console.log(person + ' will move right e');
+					} else {
+						console.log(person + ' will move left f');
+					}
+						
+				} else {
+
+					if(startRow < endRow) {
+						console.log(person + ' will move down g');
+					} else {
+						console.log(person + ' will move up h');
+					}
+				}
+
+			}
+
+			// else if (totalHorz == totalVert) {
+
+			// 		if(startCol < endCol) {
+			// 			console.log(person + ' will move right e');
+			// 		} else {
+			// 			console.log(person + ' will move left f');
+			// 		}
+						
+			// 	} else {
+
+			// 		if(startRow < endRow) {
+			// 			console.log(person + ' will move down g');
+			// 		} else {
+			// 			console.log(person + ' will move up h');
+			// 		}
+			// 	}
+
+			// } 
 
 
 		},
