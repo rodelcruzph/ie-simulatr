@@ -15,14 +15,14 @@ var app = {
 		cols: 6,
 		doors: {
 			1: {
-				x: 3, // x must less than or equal to number of cols
-				y: 6, // y must be less than or equal to number rows
-				face: 'right'
+				x: 6, // x must less than or equal to number of cols
+				y: 3, // y must be less than or equal to number rows
+				face: 'bottom'
 			},
 			2: {
-				x: 4,
-				y: 6,
-				face: 'right'
+				x: 6,
+				y: 4,
+				face: 'bottom'
 			}
 		},
 		minPeople: 1,
@@ -197,14 +197,89 @@ var app = {
 						endX = app.vars.dtd[i].row;
 
 						app.move.getDirection(startY, endY, startX, endX, i);
-
 				}
 
+				// setInterval(function() {
+				// 	var i = 1;
+				// 	var startY = app.vars.people[i].rowCoords,
+				// 		endY = app.vars.dtd[i].col,
+				// 		startX = app.vars.people[i].colCoords,
+				// 		endX = app.vars.dtd[i].row;
+
+				// 		app.move.getDirection(startY, endY, startX, endX, i);
+				// 		i++;
+				// }, 316);
 			});
 
 		},
 
 		getDirection: function(startRow, endRow, startCol, endCol, person, cfb) {
+			var totalHorz = Math.abs(startCol - endCol),
+				totalVert = Math.abs(startRow - endRow);
+
+			console.log(startRow+":"+startCol+":"+endRow+":"+endCol);
+
+			/* First Move */
+			if (endRow == 1) {
+				if(startCol < endCol) {
+					if(totalVert == 0) {
+						console.log(person + ' will move down a');
+					} else {
+						console.log(person + ' will move right b');
+					}
+				} else {
+					if(totalVert == 0) {
+						console.log(person + ' will move up c');
+					} else {
+						console.log(person + ' will move left d');
+					}
+				}
+			} else if (endRow == app.vars.rows) {
+				if(startCol < endCol) {
+					if (totalVert == 0) {
+						console.log(person + ' will move down e');
+					} else {
+						console.log(person + ' will move right f');
+					}
+				} else {
+					if (totalVert == 0) {
+						console.log(person + ' will move up g');
+					} else {
+						console.log(person + ' will move left h');
+					}
+				}
+			} else if (endCol == 1) {
+				if(starRow < endRow) {
+					if (totalHorz == 0) {
+						console.log(person + ' will move left i');
+					} else {
+						console.log(person + ' will move down j');
+					}
+				} else {
+					if (totalHorz == 0) {
+						console.log(person + ' will move right k');
+					} else {
+						console.log(person + ' will move up l');
+					}
+				}
+			} else if (endCol == app.vars.cols) {
+				if(starRow < endRow) {
+					if (totalHorz == 0) {
+						console.log(person + ' will move right n');
+					} else {
+						console.log(person + ' will move down o');
+					}
+				} else {
+					if (totalHorz == 0) {
+						console.log(person + ' will move right p');
+					} else {
+						console.log(person + ' will move up r');
+					}
+				}
+			}
+		},
+
+		getDirections: function(startRow, endRow, startCol, endCol, person, cfb) {
 
 			var totalHorz = Math.abs(startCol - endCol),
 				totalVert = Math.abs(startRow - endRow);
