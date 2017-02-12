@@ -209,7 +209,7 @@ var app = {
 			var totalHorz = Math.abs(startCol - endCol),
 				totalVert = Math.abs(startRow - endRow);
 
-			// console.log("movement: " + totalVert + " : " + totalHorz);
+			console.log("movement: " + totalVert + " : " + totalHorz);
 
 			// console.log("X direction: " + startCol + " : " + endCol);
 
@@ -236,47 +236,44 @@ var app = {
 					}
 				}
 
-			}
-
-			else if (totalHorz < totalVert) {
+			} else if (totalHorz < totalVert) {
 
 				if(totalHorz == 0) {
-
-					if(startCol < endCol) {
-						console.log(person + ' will move right e');
-					} else {
-						console.log(person + ' will move left f');
-					}
-						
-				} else {
 
 					if(startRow < endRow) {
 						console.log(person + ' will move down g');
 					} else {
 						console.log(person + ' will move up h');
 					}
+						
+				} else {
+
+					if(startCol < endCol) {
+						console.log(person + ' will move right e');
+					} else {
+						console.log(person + ' will move left f');
+					}
+
 				}
 
 			}
 
-			// else if (totalHorz == totalVert) {
+				else if (totalHorz == totalVert) {
 
-			// 		if(startCol < endCol) {
-			// 			console.log(person + ' will move right e');
-			// 		} else {
-			// 			console.log(person + ' will move left f');
-			// 		}
+					if(startRow - 1 > endRow) {
+						console.log(person + ' will move right i');
+					} else {
+						console.log(person + ' will move left j');
+					}
 						
-			// 	} else {
+				} else {
 
-			// 		if(startRow < endRow) {
-			// 			console.log(person + ' will move down g');
-			// 		} else {
-			// 			console.log(person + ' will move up h');
-			// 		}
-			// 	}
-
-			// } 
+					if(startRow < endRow) {
+						console.log(person + ' will move down k');
+					} else {
+						console.log(person + ' will move up l');
+					}
+				}
 
 
 		},
