@@ -26,7 +26,7 @@ var app = {
 			}
 		},
 		minPeople: 1,
-		maxPeople: 2,
+		maxPeople: 5,
 		people: {},
 		timeInter: 0.36,
 		dtd: {}
@@ -235,15 +235,17 @@ var app = {
 					}
 				}
 			} else if (endRow == app.vars.rows) {
-				if(startCol < endCol) {
+				if (startCol == endCol) {
+					console.log(person + ' will move down e');
+				} else if(startCol < endCol) {
 					if (totalVert == 0) {
-						console.log(person + ' will move down e');
+						console.log(person + ' will move right e');
 					} else {
 						console.log(person + ' will move right f');
 					}
 				} else {
 					if (totalVert == 0) {
-						console.log(person + ' will move up g');
+						console.log(person + ' will move left g');
 					} else {
 						console.log(person + ' will move left h');
 					}
