@@ -15,14 +15,14 @@ var app = {
 		cols: 6,
 		doors: {
 			1: {
-				x: 6, // x must less than or equal to number of cols
+				x: 1, // x must less than or equal to number of cols
 				y: 3, // y must be less than or equal to number rows
-				face: 'bottom'
+				face: 'top'
 			},
 			2: {
-				x: 6,
+				x: 1,
 				y: 4,
-				face: 'bottom'
+				face: 'top'
 			}
 		},
 		minPeople: 1,
@@ -221,61 +221,65 @@ var app = {
 
 			/* First Move */
 			if (endRow == 1) {
-				if(startCol < endCol) {
+				if(startCol == endCol) {
+					console.log(person + ' will move up 1');
+				} else if(startCol < endCol) {
 					if(totalVert == 0) {
-						console.log(person + ' will move down a');
+						console.log(person + ' will move right 2');
 					} else {
-						console.log(person + ' will move right b');
+						console.log(person + ' will move right 3');
 					}
 				} else {
 					if(totalVert == 0) {
-						console.log(person + ' will move up c');
+						console.log(person + ' will move left 4');
 					} else {
-						console.log(person + ' will move left d');
+						console.log(person + ' will move left 5');
 					}
 				}
 			} else if (endRow == app.vars.rows) {
 				if (startCol == endCol) {
-					console.log(person + ' will move down e');
+					console.log(person + ' will move down 6');
 				} else if(startCol < endCol) {
 					if (totalVert == 0) {
-						console.log(person + ' will move right e');
+						console.log(person + ' will move right 7');
 					} else {
-						console.log(person + ' will move right f');
+						console.log(person + ' will move right 8');
 					}
 				} else {
 					if (totalVert == 0) {
-						console.log(person + ' will move left g');
+						console.log(person + ' will move left 9');
 					} else {
-						console.log(person + ' will move left h');
+						console.log(person + ' will move left 10');
 					}
 				}
 			} else if (endCol == 1) {
-				if(starRow < endRow) {
+				if(startRow == endRow) {
+					console.log(person + ' will move left 11');
+				} else if(starRow < endRow) {
 					if (totalHorz == 0) {
-						console.log(person + ' will move left i');
+						console.log(person + ' will move down 12');
 					} else {
-						console.log(person + ' will move down j');
+						console.log(person + ' will move down 13');
 					}
 				} else {
 					if (totalHorz == 0) {
-						console.log(person + ' will move right k');
+						console.log(person + ' will move up 14');
 					} else {
-						console.log(person + ' will move up l');
+						console.log(person + ' will move up 15');
 					}
 				}
 			} else if (endCol == app.vars.cols) {
 				if(starRow < endRow) {
 					if (totalHorz == 0) {
-						console.log(person + ' will move right n');
+						console.log(person + ' will move right 16');
 					} else {
-						console.log(person + ' will move down o');
+						console.log(person + ' will move down 17');
 					}
 				} else {
 					if (totalHorz == 0) {
-						console.log(person + ' will move right p');
+						console.log(person + ' will move right 18');
 					} else {
-						console.log(person + ' will move up r');
+						console.log(person + ' will move up 19');
 					}
 				}
 			}
