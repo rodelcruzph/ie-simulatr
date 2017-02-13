@@ -199,8 +199,9 @@ var app = {
 						app.move.getDirection(startY, endY, startX, endX, i);
 				}
 
-				// setInterval(function() {
-				// 	var i = 1;
+				// var i = 1;
+
+				// var startMove = setInterval(function() {
 				// 	var startY = app.vars.people[i].rowCoords,
 				// 		endY = app.vars.dtd[i].col,
 				// 		startX = app.vars.people[i].colCoords,
@@ -208,7 +209,12 @@ var app = {
 
 				// 		app.move.getDirection(startY, endY, startX, endX, i);
 				// 		i++;
-				// }, 316);
+
+				// 		if(i > numOfPeople) {
+				// 			clearInterval(startMove);
+				// 		}
+
+				// }, 500);
 			});
 
 		},
@@ -285,80 +291,6 @@ var app = {
 					}
 				}
 			}
-		},
-
-		getDirections: function(startRow, endRow, startCol, endCol, person, cfb) {
-
-			var totalHorz = Math.abs(startCol - endCol),
-				totalVert = Math.abs(startRow - endRow);
-
-			console.log("movement: " + totalVert + " : " + totalHorz);
-
-			// console.log("X direction: " + startCol + " : " + endCol);
-
-			if(totalVert == 0 && totalHorz == 0) {
-
-				console.log(person + ' is by the ext door');
-
-			} else if (totalVert < totalHorz) {
-
-				if(totalVert == 0) {
-
-					if(startCol < endCol) {
-						console.log(person + ' will move right a');
-					} else {
-						console.log(person + ' will move left b');
-					}
-						
-				} else {
-
-					if(startRow < endRow) {
-						console.log(person + ' will move down c');
-					} else {
-						console.log(person + ' will move up d');
-					}
-				}
-
-			} else if (totalHorz < totalVert) {
-
-				if(totalHorz == 0) {
-
-					if(startRow < endRow) {
-						console.log(person + ' will move down g');
-					} else {
-						console.log(person + ' will move up h');
-					}
-						
-				} else {
-
-					if(startCol < endCol) {
-						console.log(person + ' will move right e');
-					} else {
-						console.log(person + ' will move left f');
-					}
-
-				}
-
-			}
-
-				else if (totalHorz == totalVert) {
-
-					if(startRow - 1 > endRow) {
-						console.log(person + ' will move right i');
-					} else {
-						console.log(person + ' will move left j');
-					}
-						
-				} else {
-
-					if(startRow < endRow) {
-						console.log(person + ' will move down k');
-					} else {
-						console.log(person + ' will move up l');
-					}
-				}
-
-
 		},
 
 		isFree: function() {
