@@ -15,14 +15,14 @@ var app = {
 		cols: 6,
 		doors: {
 			1: {
-				x: 1, // x must less than or equal to number of cols
-				y: 3, // y must be less than or equal to number rows
-				face: 'top'
+				x: 3, // x must less than or equal to number of cols
+				y: 6, // y must be less than or equal to number rows
+				face: 'right'
 			},
 			2: {
-				x: 1,
-				y: 4,
-				face: 'top'
+				x: 4,
+				y: 6,
+				face: 'right'
 			}
 		},
 		minPeople: 1,
@@ -269,17 +269,19 @@ var app = {
 					}
 				}
 			} else if (endCol == app.vars.cols) {
-				if(starRow < endRow) {
+				if(startRow == endRow) {
+					console.log(person + ' will move right 16');
+				} else if(startRow < endRow) {
 					if (totalHorz == 0) {
-						console.log(person + ' will move right 16');
-					} else {
 						console.log(person + ' will move down 17');
+					} else {
+						console.log(person + ' will move down 18');
 					}
 				} else {
 					if (totalHorz == 0) {
-						console.log(person + ' will move right 18');
-					} else {
 						console.log(person + ' will move up 19');
+					} else {
+						console.log(person + ' will move up 20');
 					}
 				}
 			}
