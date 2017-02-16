@@ -28,8 +28,12 @@ var app = {
 		minPeople: 1,
 		maxPeople: 5,
 		people: {},
-		timeInter: 0.36,
-		dtd: {}
+		sortedPeople: [{}],
+		timeInter: 360,
+		dtd: {},
+		currStep: 0,
+		maxSteps: 0,
+		startMove: ''
 	},
 
 	init: function() {
@@ -37,7 +41,7 @@ var app = {
 			app.addDoors(app.move.getExitDoor());
 		});
 
-		app.move.movePerson();
+		app.sortPeople(app.move.movePerson);
 
 		/* Init sa magdamag */
 	},
@@ -50,7 +54,7 @@ var app = {
 
 		for(var j = 1; j <= app.vars.rows; j++) {
 			for(var i = 1; i <= app.vars.cols; i++) {
-				jQuery('<li data-row="'+j+'" data-col="'+i+'" class="tileBox" style="width:'+ app.vars.boxDim +'px; height:'+ app.vars.boxDim +'px;"><span class="item"></span></li>').appendTo('.classroom-wrap');
+				jQuery('<li data-row="'+j+'" data-col="'+i+'" data-num="" class="tileBox" style="width:'+ app.vars.boxDim +'px; height:'+ app.vars.boxDim +'px;"><span class="item"></span></li>').appendTo('.classroom-wrap');
 			}
 		}
 
@@ -118,6 +122,7 @@ var app = {
 		for(var i = 0; i < randomElements.length; i++) {
 			// jQuery(randomElements[i]).addClass('people').append("<span class='item'>" + (i+1) + "</span>");
 			jQuery(randomElements[i]).addClass('people').find('span.item').html(i+1);
+			jQuery(randomElements[i]).data('num', i+1);
 		}
 
 		if(typeof cbf == 'function') {
@@ -135,10 +140,37 @@ var app = {
 			if(jQuery(this).hasClass('people')) {
 				app.vars.people[i] = {
 					'colCoords': jQuery(this).data('col'),
-					'rowCoords': jQuery(this).data('row')
+					'rowCoords': jQuery(this).data('row'),
+					'num': jQuery(this).data('num')
 				}
 				i += 1;
 			}
+		});
+
+		if(typeof cbf == 'function') {
+			cbf.call(this);
+		}
+	},
+
+	sortPeople: function(cbf) {
+		var exitDoors = Object.keys(app.vars.dtd).length,
+			numOfPeople = Object.keys(app.vars.people).length;
+
+		for(var j = 0; j < numOfPeople; j++) {
+			app.vars.sortedPeople[j] = {
+				'startCol': app.vars.people[j+1].colCoords,
+				'endCol': app.vars.dtd[j+1].col,
+				'startRow': app.vars.people[j+1].rowCoords,
+				'endRow': app.vars.dtd[j+1].row,
+				'num': app.vars.people[j+1].num,
+				'steps': Math.abs(app.vars.people[j+1].rowCoords - app.vars.dtd[j+1].row) + Math.abs(app.vars.people[j+1].colCoords - app.vars.dtd[j+1].col),
+				'currCol': app.vars.people[j+1].colCoords,
+				'currRow': app.vars.people[j+1].rowCoords
+			}
+		}
+
+		app.vars.sortedPeople.sort(function(a, b) {
+			return (a.steps) - (b.steps);
 		});
 
 		if(typeof cbf == 'function') {
@@ -168,8 +200,8 @@ var app = {
 
 						// Compare distance to each door then assign exit door
 						app.vars.dtd[j] = {
-							'col': app.vars.doors[currDoor].x,
-							'row': app.vars.doors[currDoor].y
+							'row': app.vars.doors[currDoor].x,
+							'col': app.vars.doors[currDoor].y
 						}
 
 						total = currTotal;
@@ -185,112 +217,218 @@ var app = {
 		},
 
 		movePerson: function() {
-			var x, y, numOfPeople = Object.keys(app.vars.people).length;
+			var x, y, numOfPeople = app.vars.sortedPeople.length, i = 0;
+
+				app.vars.maxSteps = app.vars.sortedPeople[numOfPeople - 1].steps;
+				
 
 			jQuery('.play-btn').on('click', function() {
 
-				for(var i = 1; i <= numOfPeople; i++) {
+				// for(app.vars.currStep = 0; app.vars.currStep < app.vars.maxSteps; app.vars.currStep += 1) {
+				// 	for(var i = 0; i < numOfPeople; i++) {
 
-					var startY = app.vars.people[i].rowCoords,
-						endY = app.vars.dtd[i].col,
-						startX = app.vars.people[i].colCoords,
-						endX = app.vars.dtd[i].row;
+				// 		var startY = app.vars.sortedPeople[i].currRow,
+				// 			endY = app.vars.sortedPeople[i].endRow,
+				// 			startX = app.vars.sortedPeople[i].currCol,
+				// 			endX = app.vars.sortedPeople[i].endCol,
+				// 			label = app.vars.sortedPeople[i].num
 
-						app.move.getDirection(startY, endY, startX, endX, i);
-				}
+				// 			app.move.getDirection(startY, endY, startX, endX, label, i);
 
-				// var i = 1;
+				// 			if(app.vars.currStep > app.vars.maxSteps) {
+				// 				console.log('end');
+				// 				clearInterval(app.vars.startMove);
+				// 			}
+				// 	}
+				// 	i = 0;
+				// }
+					
 
-				// var startMove = setInterval(function() {
-				// 	var startY = app.vars.people[i].rowCoords,
-				// 		endY = app.vars.dtd[i].col,
-				// 		startX = app.vars.people[i].colCoords,
-				// 		endX = app.vars.dtd[i].row;
+				app.vars.startMove = setInterval(function() {
+					var startY = app.vars.sortedPeople[i].currRow,
+						endY = app.vars.sortedPeople[i].endRow,
+						startX = app.vars.sortedPeople[i].currCol,
+						endX = app.vars.sortedPeople[i].endCol,
+						label = app.vars.sortedPeople[i].num;
 
-				// 		app.move.getDirection(startY, endY, startX, endX, i);
-				// 		i++;
+					app.move.getDirection(startY, endY, startX, endX, label, i);
 
-				// 		if(i > numOfPeople) {
-				// 			clearInterval(startMove);
-				// 		}
+					i++;
 
-				// }, 500);
+					if(i < app.vars.maxSteps) {
+						if(i >= numOfPeople) {
+							i = 0;
+							app.vars.currStep = app.vars.currStep + 1;
+						}
+					}
+
+					if(app.vars.currStep > app.vars.maxSteps) {
+						console.log('end');
+						clearInterval(app.vars.startMove);
+					}
+
+				}, app.vars.timeInter);
 			});
 
 		},
 
-		getDirection: function(startRow, endRow, startCol, endCol, person, cfb) {
-			var totalHorz = Math.abs(startCol - endCol),
-				totalVert = Math.abs(startRow - endRow);
+		getDirection: function(currRow, endRow, currCol, endCol, person, id, cbf) {
+			var totalHorz = Math.abs(currCol - endCol),
+				totalVert = Math.abs(currRow - endRow);
 
-			console.log(startRow+":"+startCol+":"+endRow+":"+endCol);
-
-			/* First Move */
 			if (endRow == 1) {
-				if(startCol == endCol) {
-					console.log(person + ' will move up 1');
-				} else if(startCol < endCol) {
+				if(currCol == endCol && currRow == endRow) {
+					app.move.moveExit(currRow, endRow, currCol, endCol, person, id);
+				} else if(currCol == endCol) {
+					// console.log(person + ' will move up 1');
+					app.move.moveUp(currRow, endRow, currCol, endCol, person, id);
+				} else if(currCol < endCol) {
 					if(totalVert == 0) {
-						console.log(person + ' will move right 2');
+						// console.log(person + ' will move right 2');
+						app.move.moveRight(currRow, endRow, currCol, endCol, person, id);
 					} else {
-						console.log(person + ' will move right 3');
+						// console.log(person + ' will move right 3');
+						app.move.moveRight(currRow, endRow, currCol, endCol, person, id);
 					}
 				} else {
 					if(totalVert == 0) {
-						console.log(person + ' will move left 4');
+						// console.log(person + ' will move left 4');
+						app.move.moveLeft(currRow, endRow, currCol, endCol, person, id);
 					} else {
-						console.log(person + ' will move left 5');
+						// console.log(person + ' will move left 5');
+						app.move.moveLeft(currRow, endRow, currCol, endCol, person, id);
 					}
 				}
 			} else if (endRow == app.vars.rows) {
-				if (startCol == endCol) {
-					console.log(person + ' will move down 6');
-				} else if(startCol < endCol) {
+				if(currCol == endCol && currRow == endRow) {
+					app.move.moveExit(currRow, endRow, currCol, endCol, person, id);
+				} else if (currCol == endCol) {
+					// console.log(person + ' will move down 6');
+					app.move.moveDown(currRow, endRow, currCol, endCol, person, id);
+				} else if(currCol < endCol) {
 					if (totalVert == 0) {
-						console.log(person + ' will move right 7');
+						// console.log(person + ' will move right 7');
+						app.move.moveRight(currRow, endRow, currCol, endCol, person, id);
 					} else {
-						console.log(person + ' will move right 8');
+						// console.log(person + ' will move right 8');
+						app.move.moveRight(currRow, endRow, currCol, endCol, person, id);
 					}
 				} else {
 					if (totalVert == 0) {
-						console.log(person + ' will move left 9');
+						// console.log(person + ' will move left 9');
+						app.move.moveLeft(currRow, endRow, currCol, endCol, person, id);
 					} else {
-						console.log(person + ' will move left 10');
+						// console.log(person + ' will move left 10');
+						app.move.moveLeft(currRow, endRow, currCol, endCol, person, id);
 					}
 				}
 			} else if (endCol == 1) {
-				if(startRow == endRow) {
-					console.log(person + ' will move left 11');
+				if(currCol == endCol && currRow == endRow) {
+					app.move.moveExit(currRow, endRow, currCol, endCol, person, id);
+				} else if(currRow == endRow) {
+					// console.log(person + ' will move left 11');
+					app.move.moveLeft(currRow, endRow, currCol, endCol, person, id);
 				} else if(starRow < endRow) {
 					if (totalHorz == 0) {
-						console.log(person + ' will move down 12');
+						// console.log(person + ' will move down 12');
+						app.move.moveDown(currRow, endRow, currCol, endCol, person, id);
 					} else {
-						console.log(person + ' will move down 13');
+						// console.log(person + ' will move down 13');
+						app.move.moveDown(currRow, endRow, currCol, endCol, person, id);
 					}
 				} else {
 					if (totalHorz == 0) {
-						console.log(person + ' will move up 14');
+						// console.log(person + ' will move up 14');
+						app.move.moveUp(currRow, endRow, currCol, endCol, person, id);
 					} else {
-						console.log(person + ' will move up 15');
+						// console.log(person + ' will move up 15');
+						app.move.moveUp(currRow, endRow, currCol, endCol, person, id);
 					}
 				}
 			} else if (endCol == app.vars.cols) {
-				if(startRow == endRow) {
-					console.log(person + ' will move right 16');
-				} else if(startRow < endRow) {
+				if(currCol == endCol && currRow == endRow) {
+					app.move.moveExit(currRow, endRow, currCol, endCol, person, id);
+				} else if(currRow == endRow) {
+					//console.log(person + ' will move right 16');
+					app.move.moveRight(currRow, endRow, currCol, endCol, person, id);
+
+				} else if(currRow < endRow) {
 					if (totalHorz == 0) {
-						console.log(person + ' will move down 17');
+						// console.log(person + ' will move down 17');
+						app.move.moveDown(currRow, endRow, currCol, endCol, person, id);
 					} else {
-						console.log(person + ' will move down 18');
+						// console.log(person + ' will move down 18');
+						app.move.moveDown(currRow, endRow, currCol, endCol, person, id);
 					}
 				} else {
 					if (totalHorz == 0) {
-						console.log(person + ' will move up 19');
+						app.move.moveUp(currRow, endRow, currCol, endCol, person, id);
 					} else {
-						console.log(person + ' will move up 20');
+						app.move.moveUp(currRow, endRow, currCol, endCol, person, id);
 					}
 				}
 			}
+		},
+
+		moveExit: function(currRow, endRow, currCol, endCol, person, id, cbf) {
+			jQuery('.classroom-wrap li[data-row=' + currRow + '][data-col=' + currCol + ']').removeClass('people').find('span.item').html('');
+
+			if(typeof cbf == 'function') {
+				cbf.call(this);
+			}			
+		},
+
+		moveUp: function(currRow, endRow, currCol, endCol, person, id, cbf) {
+
+			jQuery('.classroom-wrap li[data-row=' + currRow + '][data-col=' + currCol + ']').removeClass('people').find('span.item').html('');
+			jQuery('.classroom-wrap li[data-row=' + (currRow-1) + '][data-col=' + currCol + ']').addClass('people').find('span.item').html(person);
+
+			app.move.updatePeopleList(currRow-1, endRow, currCol, endCol, person, id);
+
+			if(typeof cbf == 'function') {
+				cbf.call(this);
+			}
+		},
+
+		moveRight: function(currRow, endRow, currCol, endCol, person, id, cbf) {
+
+			jQuery('.classroom-wrap li[data-row=' + currRow + '][data-col=' + currCol + ']').removeClass('people').find('span.item').html('');
+			jQuery('.classroom-wrap li[data-row=' + currRow + '][data-col=' + (currCol+1) + ']').addClass('people').find('span.item').html(person);
+
+			app.move.updatePeopleList(currRow, endRow, currCol+1, endCol, person, id);
+
+			if(typeof cbf == 'function') {
+				cbf.call(this);
+			}
+		},
+
+		moveDown: function(currRow, endRow, currCol, endCol, person, id, cbf) {
+
+			jQuery('.classroom-wrap li[data-row=' + currRow + '][data-col=' + currCol + ']').removeClass('people').find('span.item').html('');
+			jQuery('.classroom-wrap li[data-row=' + (currRow+1) + '][data-col=' + currCol + ']').addClass('people').find('span.item').html(person);
+
+			app.move.updatePeopleList(currRow+1, endRow, currCol, endCol, person, id);
+
+			if(typeof cbf == 'function') {
+				cbf.call(this);
+			}
+		},
+
+		moveLeft: function(currRow, endRow, currCol, endCol, person, id, cbf) {
+
+			jQuery('.classroom-wrap li[data-row=' + currRow + '][data-col=' + currCol + ']').removeClass('people').find('span.item').html('');
+			jQuery('.classroom-wrap li[data-row=' + currRow + '][data-col=' + currCol-1 + ']').addClass('people').find('span.item').html(person);
+
+			app.move.updatePeopleList(currRow, endRow, currCol-1, endCol, person, id);
+
+			if(typeof cbf == 'function') {
+				cbf.call(this);
+			}
+		},
+
+		updatePeopleList: function(currRow, endRow, currCol, endCol, person, id) {
+			app.vars.sortedPeople[id].currRow = currRow;
+			app.vars.sortedPeople[id].currCol = currCol;
 		},
 
 		isFree: function() {
