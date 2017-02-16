@@ -29,7 +29,7 @@ var app = {
 		maxPeople: 5,
 		people: {},
 		sortedPeople: [{}],
-		timeInter: 360,
+		timeInter: 500,
 		dtd: {},
 		currStep: 0,
 		maxSteps: 0,
@@ -224,25 +224,16 @@ var app = {
 
 			jQuery('.play-btn').on('click', function() {
 
-				// for(app.vars.currStep = 0; app.vars.currStep < app.vars.maxSteps; app.vars.currStep += 1) {
-				// 	for(var i = 0; i < numOfPeople; i++) {
+				// for(var i = 0; i < numOfPeople; i++) {
 
-				// 		var startY = app.vars.sortedPeople[i].currRow,
-				// 			endY = app.vars.sortedPeople[i].endRow,
-				// 			startX = app.vars.sortedPeople[i].currCol,
-				// 			endX = app.vars.sortedPeople[i].endCol,
-				// 			label = app.vars.sortedPeople[i].num
+				// 	var startY = app.vars.sortedPeople[i].startRow,
+				// 		endY = app.vars.sortedPeople[i].endRow,
+				// 		startX = app.vars.sortedPeople[i].startCol,
+				// 		endX = app.vars.sortedPeople[i].endCol,
+				// 		label = app.vars.sortedPeople[i].num
 
-				// 			app.move.getDirection(startY, endY, startX, endX, label, i);
-
-				// 			if(app.vars.currStep > app.vars.maxSteps) {
-				// 				console.log('end');
-				// 				clearInterval(app.vars.startMove);
-				// 			}
-				// 	}
-				// 	i = 0;
+				// 		app.move.getDirection(startY, endY, startX, endX, label);
 				// }
-					
 
 				app.vars.startMove = setInterval(function() {
 					var startY = app.vars.sortedPeople[i].currRow,
