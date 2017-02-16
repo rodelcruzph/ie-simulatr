@@ -29,7 +29,7 @@ var app = {
 		maxPeople: 5,
 		people: {},
 		sortedPeople: [{}],
-		timeInter: 500,
+		timeInter: 360,
 		dtd: {},
 		currStep: 0,
 		maxSteps: 0,
@@ -247,7 +247,7 @@ var app = {
 					i++;
 
 					if(i < app.vars.maxSteps) {
-						if(i >= numOfPeople) {
+						if(i == numOfPeople) {
 							i = 0;
 							app.vars.currStep = app.vars.currStep + 1;
 						}
