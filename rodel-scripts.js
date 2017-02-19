@@ -319,7 +319,7 @@ var app = {
 				} else if(currRow == endRow) {
 					// console.log(person + ' will move left 11');
 					app.move.moveLeft(currRow, endRow, currCol, endCol, person, id);
-				} else if(starRow < endRow) {
+				} else if(currRow < endRow) {
 					if (totalHorz == 0) {
 						// console.log(person + ' will move down 12');
 						app.move.moveDown(currRow, endRow, currCol, endCol, person, id);
@@ -408,7 +408,7 @@ var app = {
 		moveLeft: function(currRow, endRow, currCol, endCol, person, id, cbf) {
 
 			jQuery('.classroom-wrap li[data-row=' + currRow + '][data-col=' + currCol + ']').removeClass('people').find('span.item').html('');
-			jQuery('.classroom-wrap li[data-row=' + currRow + '][data-col=' + currCol-1 + ']').addClass('people').find('span.item').html(person);
+			jQuery('.classroom-wrap li[data-row=' + currRow + '][data-col=' + (currCol-1) + ']').addClass('people').find('span.item').html(person);
 
 			app.move.updatePeopleList(currRow, endRow, currCol-1, endCol, person, id);
 
