@@ -242,6 +242,8 @@ var app = {
 						endX = app.vars.sortedPeople[i].endCol,
 						label = app.vars.sortedPeople[i].num;
 
+					alert(i);
+
 					app.move.getDirection(startY, endY, startX, endX, label, i);
 
 					i++;
