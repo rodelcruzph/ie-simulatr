@@ -25,8 +25,8 @@ var app = {
 				face: 'right'
 			}
 		},
-		minPeople: 1,
-		maxPeople: 5,
+		minPeople: 2,
+		maxPeople: 2,
 		people: {},
 		sortedPeople: [{}],
 		timeInter: 360,
@@ -41,7 +41,9 @@ var app = {
 			app.addDoors(app.move.getExitDoor());
 		});
 
-		app.sortPeople(app.move.movePerson);
+		// app.sortPeople(app.move.movePerson);
+
+		app.tweenMe();
 
 		/* Init sa magdamag */
 	},
@@ -122,7 +124,7 @@ var app = {
 		for(var i = 0; i < randomElements.length; i++) {
 			// jQuery(randomElements[i]).addClass('people').append("<span class='item'>" + (i+1) + "</span>");
 			jQuery(randomElements[i]).addClass('people').find('span.item').html(i+1);
-			jQuery(randomElements[i]).data('num', i+1);
+			jQuery(randomElements[i]).attr('id', 'data-' + (i+1));
 		}
 
 		if(typeof cbf == 'function') {
@@ -241,8 +243,6 @@ var app = {
 						startX = app.vars.sortedPeople[i].currCol,
 						endX = app.vars.sortedPeople[i].endCol,
 						label = app.vars.sortedPeople[i].num;
-
-					alert(i);
 
 					app.move.getDirection(startY, endY, startX, endX, label, i);
 
@@ -376,7 +376,7 @@ var app = {
 			jQuery('.classroom-wrap li[data-row=' + currRow + '][data-col=' + currCol + ']').removeClass('people').find('span.item').html('');
 			jQuery('.classroom-wrap li[data-row=' + (currRow-1) + '][data-col=' + currCol + ']').addClass('people').find('span.item').html(person);
 
-			app.move.updatePeopleList(currRow-1, endRow, currCol, endCol, person, id);
+			app.move.updatePeopleList((currRow-1), endRow, currCol, endCol, person, id);
 
 			if(typeof cbf == 'function') {
 				cbf.call(this);
@@ -388,7 +388,7 @@ var app = {
 			jQuery('.classroom-wrap li[data-row=' + currRow + '][data-col=' + currCol + ']').removeClass('people').find('span.item').html('');
 			jQuery('.classroom-wrap li[data-row=' + currRow + '][data-col=' + (currCol+1) + ']').addClass('people').find('span.item').html(person);
 
-			app.move.updatePeopleList(currRow, endRow, currCol+1, endCol, person, id);
+			app.move.updatePeopleList(currRow, endRow, (currCol+1), endCol, person, id);
 
 			if(typeof cbf == 'function') {
 				cbf.call(this);
@@ -400,7 +400,7 @@ var app = {
 			jQuery('.classroom-wrap li[data-row=' + currRow + '][data-col=' + currCol + ']').removeClass('people').find('span.item').html('');
 			jQuery('.classroom-wrap li[data-row=' + (currRow+1) + '][data-col=' + currCol + ']').addClass('people').find('span.item').html(person);
 
-			app.move.updatePeopleList(currRow+1, endRow, currCol, endCol, person, id);
+			app.move.updatePeopleList((currRow+1), endRow, currCol, endCol, person, id);
 
 			if(typeof cbf == 'function') {
 				cbf.call(this);
@@ -412,7 +412,7 @@ var app = {
 			jQuery('.classroom-wrap li[data-row=' + currRow + '][data-col=' + currCol + ']').removeClass('people').find('span.item').html('');
 			jQuery('.classroom-wrap li[data-row=' + currRow + '][data-col=' + (currCol-1) + ']').addClass('people').find('span.item').html(person);
 
-			app.move.updatePeopleList(currRow, endRow, currCol-1, endCol, person, id);
+			app.move.updatePeopleList(currRow, endRow, (currCol-1), endCol, person, id);
 
 			if(typeof cbf == 'function') {
 				cbf.call(this);
@@ -427,6 +427,10 @@ var app = {
 		isFree: function() {
 
 		}
+	},
+
+	tweenMe: function() {
+		
 	}
 
 }
