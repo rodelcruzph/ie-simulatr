@@ -41,9 +41,9 @@ var app = {
 			app.addDoors(app.move.getExitDoor());
 		});
 
-		// app.sortPeople(app.move.movePerson);
+		app.sortPeople(app.move.movePerson);
 
-		app.tweenMe();
+		//app.tweenMe();
 
 		/* Init sa magdamag */
 	},
@@ -56,7 +56,7 @@ var app = {
 
 		for(var j = 1; j <= app.vars.rows; j++) {
 			for(var i = 1; i <= app.vars.cols; i++) {
-				jQuery('<li data-row="'+j+'" data-col="'+i+'" data-num="" class="tileBox" style="width:'+ app.vars.boxDim +'px; height:'+ app.vars.boxDim +'px;"><span class="item"></span></li>').appendTo('.classroom-wrap');
+				jQuery('<li data-row="'+j+'" data-col="'+i+'" class="tileBox" style="width:'+ app.vars.boxDim +'px; height:'+ app.vars.boxDim +'px;"><span class="item"></span></li>').appendTo('.classroom-wrap');
 			}
 		}
 
@@ -124,7 +124,7 @@ var app = {
 		for(var i = 0; i < randomElements.length; i++) {
 			// jQuery(randomElements[i]).addClass('people').append("<span class='item'>" + (i+1) + "</span>");
 			jQuery(randomElements[i]).addClass('people').find('span.item').html(i+1);
-			jQuery(randomElements[i]).attr('id', 'data-' + (i+1));
+			jQuery(randomElements[i]).attr('id', i+1);
 		}
 
 		if(typeof cbf == 'function') {
@@ -143,7 +143,7 @@ var app = {
 				app.vars.people[i] = {
 					'colCoords': jQuery(this).data('col'),
 					'rowCoords': jQuery(this).data('row'),
-					'num': jQuery(this).data('num')
+					'num': jQuery(this).attr('id')
 				}
 				i += 1;
 			}
